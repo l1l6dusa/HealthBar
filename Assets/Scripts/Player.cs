@@ -3,32 +3,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Animator))]
 public class Player : MonoBehaviour
 {
-    [SerializeField] private Slider slider;
+    private Animator _animator;
+    private UnityEvent<int> _onHealthChanged;
+    
+    [SerializeField] private Slider _slider;
     [SerializeField] private int _maxHealth;
     [SerializeField] private int _health;
-    
-    private Animator animator;
-    private UnityEvent<int> OnHealthChanged;
-    
+
+    private void Awake()
+    {
+        _animator = GetComponent<Animator>();
+    }
+
     private void Start()
     {
-        animator = GetComponent<Animator>();
-        OnHealthChanged = new UnityEvent<int>();
+        _onHealthChanged = new UnityEvent<int>();
         _health = _maxHealth;
-        slider.maxValue = _maxHealth;
-        OnHealthChanged.AddListener(slider.GetComponent<ChangeSliderValue>().OnButtonClickSliderValueChange);
+        _slider.maxValue = _maxHealth;
+        _onHealthChanged.AddListener(_slider.GetComponent<ChangeSliderValue>().OnButtonClickSliderValueChange);
     }
+    
     public void ChangeHealth(int health)
     {
-        _health = Mathf.Clamp(_health + health, 0, (int)slider.maxValue);
+        _health = Mathf.Clamp(_health + health, 0, (int)_slider.maxValue);
         if (health < 0)
         {
-            animator.SetTrigger("Hit");
+            _animator.SetTrigger("Hit");
         }
-        OnHealthChanged?.Invoke(health);
+        _onHealthChanged?.Invoke(health);
     }
 }

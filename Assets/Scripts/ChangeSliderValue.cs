@@ -7,22 +7,24 @@ using TMPro.EditorUtilities;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Slider))]
 public class ChangeSliderValue : MonoBehaviour
 {
     private Slider _slider;
+    private Coroutine _changeValueCoroutine;
     private int _currentSliderValue;
     private int _minValue;
+    private float _newValue;
     private float _oldValue;
-    private Coroutine changeValue;
-    
+
     [SerializeField] private int _maxValue;
-    [SerializeField] private float _newValue;
     [SerializeField] private float _lerpDuration;
     
     private void Awake()
     {
         _slider = GetComponent<Slider>();
     }
+    
     private void Start()
     {
         _newValue = _maxValue;
@@ -30,16 +32,18 @@ public class ChangeSliderValue : MonoBehaviour
         _slider.maxValue = _maxValue;
         _slider.value = _maxValue;
     }
+    
     public void OnButtonClickSliderValueChange(int newValue)
     {
         _oldValue = _newValue;
         _newValue = Mathf.Clamp(_oldValue + newValue, _minValue, _maxValue);
-        if (changeValue != null)
+        if (_changeValueCoroutine != null)
         {
-            StopCoroutine(changeValue);
+            StopCoroutine(_changeValueCoroutine);
         }
-        changeValue = StartCoroutine(ChangeValue());
+        _changeValueCoroutine = StartCoroutine(ChangeValue());
     }
+    
     private IEnumerator ChangeValue()
     {
         float _timeElapsed = 0f;
