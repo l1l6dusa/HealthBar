@@ -712,7 +712,7 @@ MonoBehaviour:
   OnHealthChanged:
     m_PersistentCalls:
       m_Calls: []
-  _slider: {fileID: 0}
+  _slider: {fileID: 1734846005}
   _maxHealth: 100
   _health: 0
 --- !u!95 &634023978
