@@ -709,7 +709,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5878e74aa3b09d47899da2f497a6835, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 1734846005}
+  OnHealthChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  _slider: {fileID: 0}
   _maxHealth: 100
   _health: 0
 --- !u!95 &634023978
@@ -2334,7 +2337,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxValue: 100
-  _newValue: 0
   _lerpDuration: 0.5
 --- !u!1 &1789927860
 GameObject:

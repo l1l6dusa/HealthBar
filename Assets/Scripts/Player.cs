@@ -9,9 +9,10 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Animator))]
 public class Player : MonoBehaviour
 {
-    private Animator _animator;
-    private UnityEvent<int> _onHealthChanged;
+    public UnityEvent<int> OnHealthChanged;
     
+    private Animator _animator;
+
     [SerializeField] private Slider _slider;
     [SerializeField] private int _maxHealth;
     [SerializeField] private int _health;
@@ -23,10 +24,10 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        _onHealthChanged = new UnityEvent<int>();
+        OnHealthChanged = new UnityEvent<int>();
         _health = _maxHealth;
         _slider.maxValue = _maxHealth;
-        _onHealthChanged.AddListener(_slider.GetComponent<ChangeSliderValue>().OnButtonClickSliderValueChange);
+        OnHealthChanged.AddListener(_slider.GetComponent<ChangeSliderValue>().OnButtonClickSliderValueChange);
     }
     
     public void ChangeHealth(int health)
@@ -36,6 +37,6 @@ public class Player : MonoBehaviour
         {
             _animator.SetTrigger("Hit");
         }
-        _onHealthChanged?.Invoke(health);
+        OnHealthChanged?.Invoke(health);
     }
 }
